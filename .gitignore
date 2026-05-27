@@ -1,3 +1,8 @@
+# Project-specific
+CLAUDE.md
+assets/*
+!assets/logo.png
+
 # OS
 .DS_Store
 Thumbs.db
@@ -8,7 +13,7 @@ desktop.ini
 .idea/
 *.swp
 
-# Local
+# Local / secrets
 .claude/
 .env
 .env.local
