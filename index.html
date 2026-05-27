@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMK Ventures · Funding the Future of Decentralization</title>
+    <meta name="description" content="SMK Ventures invests at early inflection points in Web3 and frontier tech, backing the next generation of crypto builders." />
+    <link rel="icon" href="assets/baluk_ong_00053.png" type="image/png" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div id="vanta-bg" aria-hidden="true"></div>
+    <div id="bg-darken" aria-hidden="true"></div>
+
+    <a href="#home" class="site-logo" aria-label="SMK Ventures home">
+        <img src="assets/baluk_ong_00053.png" alt="SMK Ventures" />
+    </a>
+
+    <nav class="navbar" aria-label="Primary">
+        <ul class="nav-links">
+            <li><a href="#home" class="nav-link active">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-inner">
+                <h1 class="hero-headline">Funding the Future of Decentralization</h1>
+                <a href="https://x.com/smkventures" target="_blank" rel="noopener noreferrer" class="hero-x" aria-label="SMK Ventures on X">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M18.244 2H21l-6.51 7.435L22.5 22h-6.812l-5.33-6.96L4.2 22H1.443l6.97-7.96L1.5 2h6.91l4.808 6.36L18.244 2zm-1.19 18h1.7L7.04 4H5.2l11.853 16z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <a href="#about" class="scroll-arrow" aria-label="Scroll to next section">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M7 10l5 5 5-5"/>
+                </svg>
+            </a>
+        </section>
+
+        <section class="feature" id="about">
+            <article class="feature-card">
+                <div class="feature-visual" data-variant="who">
+                    <span class="visual-glow"></span>
+                </div>
+                <div class="feature-text">
+                    <h2 class="feature-title">Who are we?</h2>
+                    <p class="feature-body">SMK Ventures is a UK-based venture firm investing at the early inflection points of Web3 and frontier technology. We partner with founders shaping the protocols, infrastructure, and applications that will define the next decade of decentralization.</p>
+                </div>
+            </article>
+        </section>
+
+        <section class="feature">
+            <article class="feature-card reverse">
+                <div class="feature-visual" data-variant="do">
+                    <span class="visual-glow"></span>
+                </div>
+                <div class="feature-text">
+                    <h2 class="feature-title">What we can do?</h2>
+                    <p class="feature-body">We deploy early capital, open doors across the global crypto ecosystem, and stay close to teams long after the cheque. From token design and go-to-market to recruiting and partnerships, we operate as an extension of the founding team.</p>
+                </div>
+            </article>
+        </section>
+
+        <section class="feature" id="contact">
+            <article class="feature-card">
+                <div class="feature-visual" data-variant="contact">
+                    <span class="visual-glow"></span>
+                </div>
+                <div class="feature-text">
+                    <h2 class="feature-title">Contact</h2>
+                    <p class="feature-body">Building something at the edge of Web3? We'd love to hear from you. A direct contact channel is on its way; for now, reach out via our socials.</p>
+                </div>
+                <button type="button" class="contact-cta" data-open-contact aria-haspopup="dialog">
+                    Contact
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M5 12h14M13 6l6 6-6 6"/>
+                    </svg>
+                </button>
+            </article>
+        </section>
+
+        <div class="contact-modal" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title" hidden>
+            <div class="contact-modal-backdrop" data-close-contact></div>
+            <div class="contact-modal-panel">
+                <button type="button" class="contact-modal-close" data-close-contact aria-label="Close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6L6 18"/>
+                    </svg>
+                </button>
+                <h3 class="contact-modal-title" id="contact-modal-title">Get in touch</h3>
+                <form class="contact-form" novalidate>
+                    <label class="contact-field">
+                        <span class="contact-field-label">Name, Surname</span>
+                        <input type="text" name="name" autocomplete="name" required />
+                    </label>
+                    <label class="contact-field">
+                        <span class="contact-field-label">Your email</span>
+                        <input type="email" name="email" autocomplete="email" required />
+                    </label>
+                    <label class="contact-field">
+                        <span class="contact-field-label">Your Message</span>
+                        <textarea name="message" rows="5" required></textarea>
+                    </label>
+                    <button type="submit" class="contact-submit">Send</button>
+                    <p class="contact-form-note">Mail backend is being wired up, coming soon.</p>
+                </form>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <span class="footer-brand">© <span id="footer-year">2026</span> SMK Ventures · United Kingdom</span>
+                <a href="https://x.com/smkventures" target="_blank" rel="noopener noreferrer" class="footer-social" aria-label="SMK Ventures on X">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M18.244 2H21l-6.51 7.435L22.5 22h-6.812l-5.33-6.96L4.2 22H1.443l6.97-7.96L1.5 2h6.91l4.808 6.36L18.244 2zm-1.19 18h1.7L7.04 4H5.2l11.853 16z"/>
+                    </svg>
+                </a>
+            </div>
+        </footer>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.halo.min.js"></script>
+    <script src="script.js" defer></script>
+</body>
+</html>

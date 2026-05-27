@@ -1,0 +1,672 @@
+/* ==========================================================================
+   SMK Ventures:design tokens
+   Palette: 0x9950DC (purple)  ·  0x1440D0 (blue)  ·  0x000000 (black)
+   ========================================================================== */
+:root {
+    --font-ui: -apple-system, "SF Pro Text", "SF Pro Display", system-ui,
+               "Helvetica Neue", Arial, sans-serif;
+
+    --purple: #9950DC;
+    --blue:   #1440D0;
+    --black:  #000000;
+
+    --fg:        #f5f5f7;
+    --muted:     rgba(235, 235, 245, 0.62);
+    --dim:       rgba(235, 235, 245, 0.30);
+
+    /* glass system:lifted from personal-website */
+    --glass-bg:    rgba(20, 18, 36, 0.42);
+    --glass-edge:  rgba(255, 255, 255, 0.14);
+    --glass-sheen: linear-gradient(180deg,
+                    rgba(255, 255, 255, 0.10),
+                    rgba(255, 255, 255, 0.02) 40%,
+                    rgba(255, 255, 255, 0) 70%);
+    --glass-blur: blur(34px) saturate(200%);
+    --glass-elev: 0 10px 34px rgba(0, 0, 0, 0.40);
+
+    --radius-nav:    12px;   /* per spec */
+    --radius-card:   18px;
+    --radius-pill:   999px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+html, body {
+    background: var(--black);
+    color: var(--fg);
+    font-family: var(--font-ui);
+    font-size: 15px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100%;
+}
+
+a { color: inherit; text-decoration: none; }
+
+img, svg { display: block; }
+
+/* ==========================================================================
+   Vanta.js HALO background:fixed behind everything
+   ========================================================================== */
+#vanta-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: var(--black);
+}
+
+/* Soft black overlay so scroll sections stay legible while vanta shows through */
+#vanta-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 40%,
+                transparent 0%,
+                rgba(0, 0, 0, 0.25) 55%,
+                rgba(0, 0, 0, 0.45) 100%);
+    pointer-events: none;
+}
+
+/* Progressive darken overlay:opacity grows with scroll, full at contact.
+   --d (0 → 1) is driven by JS; --m (0 / 1) is forced full by modal open. */
+#bg-darken {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: #000000;
+    opacity: max(var(--d, 0), var(--m, 0));
+    transition: opacity 0.35s ease;
+}
+
+main { position: relative; z-index: 2; }
+
+/* ==========================================================================
+   Logo:top-left, fixed
+   ========================================================================== */
+.site-logo {
+    position: fixed;
+    top: 18px;
+    left: clamp(16px, 3vw, 32px);
+    z-index: 110;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 50%;
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.site-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 18px rgba(153, 80, 220, 0.45));
+}
+
+.site-logo:hover { transform: translateY(-2px) scale(1.04); }
+
+/* ==========================================================================
+   Navbar:floating glass pill, corner-radius 12
+   (ported from personal-website .navbar, radius adjusted per spec)
+   ========================================================================== */
+.navbar {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 14px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    padding: 0 18px;
+
+    border: 0.5px solid var(--glass-edge);
+    border-radius: var(--radius-nav);
+    background: var(--glass-sheen), var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-elev);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+}
+
+.nav-links li { display: flex; align-items: center; }
+
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    transition: background 0.25s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--fg);
+    background: color-mix(in srgb, var(--purple) 22%, transparent);
+}
+
+.nav-link.active {
+    color: var(--fg);
+    background: color-mix(in srgb, var(--purple) 30%, transparent);
+}
+
+@media (max-width: 600px) {
+    .navbar { height: 50px; padding: 0 12px; }
+    .nav-link { padding: 6px 12px; font-size: 0.82rem; }
+    .site-logo { width: 46px; height: 46px; top: 12px; left: 12px; }
+}
+
+/* ==========================================================================
+   Hero:slogan + X icon + scroll arrow
+   ========================================================================== */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 120px clamp(20px, 5vw, 60px) 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    text-align: center;
+}
+
+.hero-headline {
+    font-weight: 700;
+    font-size: clamp(2rem, 5.6vw, 4.4rem);
+    line-height: 1.18;
+    letter-spacing: -0.035em;
+    color: #ffffff;
+    padding-bottom: 0.08em;
+
+    opacity: 0;
+    transform: translateY(12px);
+    animation: hero-fade 2s ease-out 0.2s forwards;
+}
+
+.hero-x {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    color: var(--fg);
+    border: 0.5px solid var(--glass-edge);
+    background: var(--glass-sheen), var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-elev);
+    transition: background 0.25s ease, transform 0.25s ease,
+                box-shadow 0.3s ease, border-color 0.25s ease;
+
+    opacity: 0;
+    transform: translateY(8px);
+    animation: hero-fade 2s ease-out 0.6s forwards;
+}
+
+.hero-x svg { width: 20px; height: 20px; }
+
+.hero-x:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--purple) 60%, var(--glass-edge));
+    box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-elev),
+                0 8px 28px color-mix(in srgb, var(--purple) 38%, transparent);
+}
+
+@keyframes hero-fade {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scroll arrow:appears after hero fade completes */
+.scroll-arrow {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--fg);
+    border: 0.5px solid var(--glass-edge);
+    background: var(--glass-sheen), var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-elev);
+
+    opacity: 0;
+    animation: arrow-in 0.8s ease-out 2.6s forwards,
+               arrow-bob 2.4s ease-in-out 3.4s infinite;
+    transition: transform 0.25s ease, color 0.2s ease,
+                border-color 0.25s ease;
+}
+
+.scroll-arrow svg { width: 22px; height: 22px; }
+
+.scroll-arrow:hover {
+    color: #d9c6ff;
+    border-color: color-mix(in srgb, var(--purple) 60%, var(--glass-edge));
+}
+
+@keyframes arrow-in {
+    from { opacity: 0; transform: translate(-50%, 10px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes arrow-bob {
+    0%, 100% { transform: translate(-50%, 0); }
+    50%      { transform: translate(-50%, 8px); }
+}
+
+/* ==========================================================================
+   Feature sections:glass cards, image left / text right
+   ========================================================================== */
+.feature {
+    position: relative;
+    padding: clamp(60px, 10vh, 120px) clamp(20px, 5vw, 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.feature-card {
+    width: 100%;
+    max-width: 1080px;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(28px, 5vw, 64px);
+    align-items: center;
+
+    padding: clamp(28px, 4vw, 48px);
+    border: 0.5px solid var(--glass-edge);
+    border-radius: var(--radius-card);
+    background: var(--glass-sheen), var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-elev);
+    transition: transform 0.4s ease, box-shadow 0.4s ease,
+                border-color 0.4s ease;
+}
+
+.feature-card.reverse {
+    grid-template-columns: 1.1fr 1fr;
+}
+
+.feature-card.reverse .feature-visual { order: 2; }
+.feature-card.reverse .feature-text   { order: 1; }
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--purple) 40%, var(--glass-edge));
+    box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-elev),
+                0 14px 40px color-mix(in srgb, var(--purple) 26%, transparent);
+}
+
+/* Visual block:stylized gradient placeholder; swap for an <img> later */
+.feature-visual {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 0.5px solid var(--glass-edge);
+    background: radial-gradient(circle at 30% 30%,
+                rgba(153, 80, 220, 0.55),
+                rgba(20, 64, 208, 0.30) 55%,
+                rgba(0, 0, 0, 0.85) 100%);
+}
+
+.feature-visual[data-variant="do"] {
+    background: radial-gradient(circle at 70% 30%,
+                rgba(20, 64, 208, 0.65),
+                rgba(153, 80, 220, 0.30) 55%,
+                rgba(0, 0, 0, 0.85) 100%);
+}
+
+.feature-visual[data-variant="contact"] {
+    background: conic-gradient(from 140deg at 50% 50%,
+                rgba(153, 80, 220, 0.55),
+                rgba(20, 64, 208, 0.55),
+                rgba(0, 0, 0, 0.75),
+                rgba(153, 80, 220, 0.55));
+}
+
+.visual-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
+                rgba(255, 255, 255, 0.18),
+                transparent 45%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.feature-card:hover .visual-glow { opacity: 1; }
+
+.feature-text {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.feature-title {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--fg);
+}
+
+.feature-body {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 52ch;
+}
+
+@media (max-width: 800px) {
+    .feature-card,
+    .feature-card.reverse {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .feature-card.reverse .feature-visual { order: 0; }
+    .feature-card.reverse .feature-text   { order: 0; }
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer {
+    padding: 40px clamp(20px, 5vw, 60px) 60px;
+}
+
+.footer-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    border: 0.5px solid var(--glass-edge);
+    border-radius: var(--radius-nav);
+    background: var(--glass-sheen), var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-elev);
+}
+
+.footer-brand {
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: -0.01em;
+}
+
+.footer-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: var(--fg);
+    border: 0.5px solid var(--glass-edge);
+    transition: background 0.25s ease, color 0.2s ease,
+                transform 0.25s ease, border-color 0.25s ease;
+}
+
+.footer-social svg { width: 16px; height: 16px; }
+
+.footer-social:hover {
+    transform: translateY(-2px);
+    color: #d9c6ff;
+    border-color: color-mix(in srgb, var(--purple) 60%, var(--glass-edge));
+    background: color-mix(in srgb, var(--purple) 20%, transparent);
+}
+
+@media (max-width: 500px) {
+    .footer-inner { flex-direction: column; text-align: center; }
+}
+
+/* Hide focus rings, use tint halo (matches personal-website) */
+:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--purple) 35%, transparent);
+}
+
+/* ==========================================================================
+   Contact CTA:bottom-right of the contact feature card
+   ========================================================================== */
+.feature-card { position: relative; }
+
+.contact-cta {
+    position: absolute;
+    right: clamp(20px, 3vw, 32px);
+    bottom: clamp(20px, 3vw, 32px);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px 10px 20px;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    cursor: pointer;
+    border: 0.5px solid color-mix(in srgb, var(--purple) 45%, var(--glass-edge));
+    border-radius: var(--radius-pill);
+    background: var(--glass-sheen),
+                color-mix(in srgb, var(--purple) 22%, var(--glass-bg));
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-elev);
+    transition: background 0.25s ease, transform 0.25s ease,
+                box-shadow 0.3s ease, border-color 0.25s ease;
+}
+
+.contact-cta svg { width: 16px; height: 16px; }
+
+.contact-cta:hover {
+    transform: translateY(-2px);
+    background: var(--glass-sheen),
+                color-mix(in srgb, var(--purple) 38%, var(--glass-bg));
+    border-color: color-mix(in srgb, var(--purple) 70%, var(--glass-edge));
+    box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-elev),
+                0 10px 30px color-mix(in srgb, var(--purple) 38%, transparent);
+}
+
+@media (max-width: 800px) {
+    .contact-cta {
+        position: static;
+        align-self: flex-start;
+        margin-top: 8px;
+    }
+}
+
+/* ==========================================================================
+   Contact modal
+   ========================================================================== */
+.contact-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(16px, 4vw, 40px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.contact-modal[hidden] { display: none; }
+
+.contact-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.contact-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: #000;
+}
+
+.contact-modal-panel {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    padding: clamp(28px, 4vw, 44px);
+    border: 0.5px solid var(--glass-edge);
+    border-radius: 18px;
+    background: var(--glass-sheen),
+                color-mix(in srgb, var(--purple) 8%, rgba(14, 12, 24, 0.85));
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: inset 0 1px 0 var(--glass-edge),
+                0 30px 80px rgba(0, 0, 0, 0.65);
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+.contact-modal.open .contact-modal-panel {
+    transform: translateY(0) scale(1);
+}
+
+.contact-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0.5px solid var(--glass-edge);
+    border-radius: 50%;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.25s ease,
+                background 0.25s ease;
+}
+
+.contact-modal-close svg { width: 16px; height: 16px; }
+
+.contact-modal-close:hover {
+    color: var(--fg);
+    border-color: color-mix(in srgb, var(--purple) 60%, var(--glass-edge));
+    background: color-mix(in srgb, var(--purple) 18%, transparent);
+}
+
+.contact-modal-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin-bottom: 22px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.contact-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.contact-field-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.contact-field input,
+.contact-field textarea {
+    width: 100%;
+    font: inherit;
+    color: var(--fg);
+    padding: 11px 14px;
+    border: 0.5px solid var(--glass-edge);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    resize: vertical;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease,
+                background 0.2s ease;
+}
+
+.contact-field textarea { min-height: 110px; line-height: 1.5; }
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--purple) 60%, var(--glass-edge));
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--purple) 28%, transparent);
+}
+
+.contact-submit {
+    align-self: flex-start;
+    margin-top: 4px;
+    padding: 11px 24px;
+    font: inherit;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    border: 0.5px solid color-mix(in srgb, var(--purple) 70%, var(--glass-edge));
+    border-radius: var(--radius-pill);
+    background: linear-gradient(135deg, var(--purple), var(--blue));
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--purple) 38%, transparent);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.contact-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--purple) 50%, transparent);
+}
+
+.contact-form-note {
+    margin-top: 4px;
+    font-size: 0.78rem;
+    color: var(--dim);
+}
+
+body.modal-open { overflow: hidden; }
